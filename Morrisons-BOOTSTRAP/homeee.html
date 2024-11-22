@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css">
+    <title>Dropdown Example</title>
+    <style>
+        .third-header-items ul {
+            display: none; /* Hide dropdown by default */
+            position: absolute; /* Position it absolutely */
+            background: white; /* Background color */
+            z-index: 1000; /* Bring it above other content */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            list-style-type: none; /* Remove bullet points */
+        }
+
+        .third-header-items ul.show {
+            display: block; /* Show dropdown when .show class is added */
+        }
+
+        .dropdown-item {
+            cursor: pointer; /* Change cursor on hover */
+            padding: 8px 12px; /* Padding for items */
+        }
+
+        .dropdown-item:hover {
+            background-color: #f1f1f1; /* Change background color on hover */
+        }
+
+        /* Style for the content display area */
+        .content-display {
+            margin-top: 20px; /* Add some space above the content display */
+            padding: 10px; /* Add padding */
+            border: 1px solid #ccc; /* Add border for visibility */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 3rd-Header -->
+    <nav class="navbar navbar-expand-sm bg-light navbar-light mt-1 p-0 third-header-container sticky-top">
+        <div class="container-fluid m-0 third-header">
+            <div class="collapse navbar-collapse" id="3rdNavbar">
+                <ul class="navbar-nav w-100 d-flex ">
+                    <li class="nav-item flex-fill  border-end  my-1 d-flex justify-content-between align-items-center ">
+                        <div class="d-flex align-items-center third-header-items">
+                            <i class="fa-solid fa-bars me-3 text-warning "></i> 
+                            <a class="text-decoration-none third-anchor me-3 third-header-a" href="#">Shop Groceries</a> 
+                            <ul>
+                                <li class="dropdown-item" id="mealDeals">Meal Deals & More Card</li>
+                                <li class="dropdown-item" id="events">Events & Inspiration</li>
+                                <li class="dropdown-item" id="offers">Offers</li>
+                                <li class="dropdown-item" id="allProducts">All Products</li>
+                                <li class="dropdown-item" id="moreCard">More Card</li>
+                                <li class="dropdown-item" id="whenItsGone">When it's gone it's gone</li>
+                                <li class="dropdown-item" id="MarketStreet">Market Street</li>
+                                <li class="dropdown-item" id="Christmas">Christmas</li>
+                            </ul>
+                        </div>
+                        <i class="ms-0 fa-solid fa-chevron-down pe-2 text-warning"></i> 
+                    </li>
+                    <!-- Other nav items... -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="content-display" class="content-display"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+    <script>
+        // Data to display for each dropdown item
+        const contentData = {
+            mealDeals: `
+                <div>
+                    <h4>Meal Deals</h4>
+                    <img src="Images/main-container-1.jpg" style="width: 100px;">
+                </div>`,
+            whenItsGone: `
+                <ul>
+                    <li>All When it's gone it's gone</li>
+                    <li>Nutmeg Uniform & Clothing</li>
+                </ul>`,
+            MarketStreet: `
+                <ul>
+                    <li>All Market Street</li>
+                    <ul>
+                        <li>All Fresh From The Butcher</li>
+                        <li>Beef</li>
+                        <li>Lamb</li>
+                        <li>Pork</li>
+                    </ul>
+                    <li>Fresh From the Butcher</li>
+                    <li>Fresh From The Fishmonger</li>
+                </ul>`,
+            events: `<h4>Events & Inspiration</h4>`,
+            offers: `<h4>Offers</h4>`,
+            allProducts: `<h4>All Products</h4>`,
+            moreCard: `<h4>More Card</h4>`,
+            Christmas: `<h4>Christmas Offers</h4>`,
+        };
+
+        // Function to display content based on the dropdown item clicked
+        function displayContent(item) {
+            const contentDisplay = document.getElementById('content-display');
+            contentDisplay.innerHTML = contentData[item] || ''; // Display content or an empty string if item doesn't exist
+        }
+
+        // Toggle the dropdown visibility
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.third-header-items ul');
+            dropdown.classList.toggle('show'); // Toggle the show class for dropdown visibility
+        }
+
+        // Add event listener for the main dropdown link
+        const mainLink = document.querySelector('.third-header-items a');
+        mainLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default anchor click behavior
+            toggleDropdown(); // Toggle dropdown visibility
+        });
+
+        // Add event listeners to dropdown items
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', (event) => {
+                event.stopPropagation(); // Stop event from bubbling up to the main link
+                displayContent(item.id.trim()); // Call displayContent with the id of the clicked item
+            });
+        });
+
+        // Close the dropdown if clicked outside
+        document.addEventListener('click', () => {
+            const dropdown = document.querySelector('.third-header-items ul');
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show'); // Close dropdown if clicking outside
+            }
+        });
+    </script>
+</body>
+</html>
