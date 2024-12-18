@@ -1,0 +1,43 @@
+body{
+    background-color: #9c9999;
+}
+.custom-sidebar{
+    background-color: #106c2f;
+    border-top-right-radius: 5px;
+}
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding-top: 20px;
+    transition: 0.3s ease-in-out;
+}
+
+
+
+#sidebar .nav-link:hover {
+    background-color: #007bff;
+}
+
+/* Main Content */
+.content {
+    transition: margin-left 0.3s ease;
+}
+
+/* Button Style for the Toggle */
+#toggleBtn {
+    position: absolute;
+    top: 10px;
+    right: -55px;
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+
+/* Custom dropdown inside the sidebar */
+#sidebar .dropdown-menu {
+    position: static; /* Ensure the dropdown is not absolute */
+    margin: 0;
+    width: 100%; /* Ensure it fits within the sidebar */
+}

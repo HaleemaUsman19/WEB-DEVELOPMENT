@@ -1,0 +1,49 @@
+<!-- admin/products/add.ejs -->
+
+
+<h2>Create New Product</h2>
+
+<form action="/admin/product/create" method="POST" >
+    <!-- Product Name -->
+    <div class="mb-3">
+        <label for="productName" class="form-label">Product Name</label>
+        <input type="text" class="form-control" id="productName" name="name" required>
+    </div>
+
+    <!-- Product Description -->
+    <div class="mb-3">
+        <label for="productDescription" class="form-label">Description</label>
+        <textarea class="form-control" id="productDescription" name="description" rows="3" ></textarea>
+    </div>
+
+    <!-- Product Image -->
+    <!-- <div class="mb-3">
+        <label for="productImage" class="form-label">Upload Image</label>
+        <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" required>
+    </div> -->
+
+    <div class="mb-3">
+        <label for="productPrice" class="form-label">Price</label>
+        <input type="number" class="form-control" id="productPrice" name="price" min="1" value="Rs." required>
+    </div>
+
+    <!-- Product Quantity -->
+    <div class="mb-3">
+        <label for="productQuantity" class="form-label">Quantity</label>
+        <input type="number" class="form-control" id="productQuantity" name="quantity" min="1" required>
+    </div>
+
+   
+    <div class="mb-3">
+        <label for="productCategory" class="form-label">Category</label>
+        <select class="form-select" id="productCategory" name="category" >
+            <option value="">Select Category</option>
+             <% category.forEach( (category)=> { %>
+            <option value="<%= category._id%>"><%= category.name%></option>
+        <% }); %>
+        </select>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-success">Add Product</button>
+</form>

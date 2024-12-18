@@ -1,0 +1,55 @@
+<!-- admin/products/add.ejs -->
+
+
+<h2>Update Product</h2>
+
+<form action="/admin/product/update/<%= product._id%>" method="POST" >
+    <!-- Product Name -->
+    <div class="mb-3">
+        <label for="productName" class="form-label">Product Name</label>
+        <input type="text" class="form-control" id="productName" name="name" value="<%= product.name %>" required>
+    </div>
+
+    <!-- Product Description -->
+    <div class="mb-3">
+        <label for="productDescription" class="form-label">Description</label>
+        <input class="form-control" id="productDescription" name="description" value="<%= product.description %>" rows="3" ></input>
+    </div>
+
+    <!-- Product Image -->
+    <!-- <div class="mb-3">
+        <label for="productImage" class="form-label">Upload Image</label>
+        <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" required>
+    </div> -->
+
+    <div class="mb-3">
+        <label for="productPrice" class="form-label">Price</label>
+        <input type="number" class="form-control" id="productPrice" name="price" min="1" value="<%= product.price %>" required>
+    </div>
+
+    <!-- Product Quantity -->
+    <div class="mb-3">
+        <label for="productQuantity" class="form-label">Quantity</label>
+        <input type="number" class="form-control" id="productQuantity" name="quantity" min="1" value="<%= product.quantity %>" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="productCategory" class="form-label">Category</label>
+        <select class="form-select" id="productCategory" name="category" >
+            <option value="">Select Category</option>
+             <% category.forEach( (category)=> { %>
+                
+                <option value="<%= category._id %>"
+                    <%= product.category && category._id.toString() === product.category._id.toString() ? 'selected' : '' %>>
+                    <%= category.name %>
+            </option>
+
+        <% }); %>
+        </select>
+    </div>
+
+    
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-success">Update Product</button>
+</form>
