@@ -1,12 +1,12 @@
-const express=require('express');
-const router=express.Router();
+const express = require('express');
+const router = express.Router();
 const categoryModel = require('../models/category'); // Replace with your actual model
-const productModel=require("../models/product");
+const productModel = require('../models/product');
 
 router.get('/', async (req, res) => {
     try {
         const categories = await categoryModel.find(); // Fetch all categories from the database
-        res.render('category.ejs', { layout: false,  categories }); // Pass categories to the template
+        res.render('category', { layout: false, categories }); // Pass categories to the template
     } catch (error) {
         console.error('Error fetching categories:', error.message);
         res.status(500).send('Error loading categories.');
@@ -32,4 +32,4 @@ router.get('/category/:categoryName', async (req, res) => {
     }
 });
 
-module.exports=router;
+module.exports = router;

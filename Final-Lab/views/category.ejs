@@ -34,7 +34,7 @@
         }
 
         .cart {
-            background:  #265327;
+            background: #265327;
             color: #fff;
             border: none;
             padding: 10px 15px;
@@ -64,7 +64,7 @@
         }
 
         .row-cols-3 > * {
-            margin-bottom: 1.5rem; /* Add space between rows */
+            margin-bottom: 1.5rem;
         }
 
         .back-btn {
@@ -82,64 +82,41 @@
             color: #ffffff;
         }
     </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= category.name %> Products</title>
+    <!-- Include your CSS/JS files here -->
 </head>
-
 <body>
-    <!-- Go Back Button -->
-    <button class="back-btn" onclick="window.history.back()">
-        <i class="fas fa-arrow-left"></i> Go Back
-    </button>
-
-    <div class="container mt-5">
-        <h2 class="text-center text-white mb-4"><%= category.name %></h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+    <h1><%= category.name %> Products</h1>
+    <div class="container">
+        <div class="row">
             <% products.forEach((product) => { %>
-            <div class="col">
-                <div class="card h-100">
-                    <a href="/product-details/<%= product._id %>">
+                <div class="col-md-4">
+                    <div class="card">
                         <img src="/images/uploads/<%= product.image %>" class="card-img-top" alt="<%= product.name %>">
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title"><%= product.name %></h5>
-                        <p class="card-text text-muted"><%= product.description %></p>
-                        <p class="card-text"><strong>Price: Rs. <%= product.price %></strong></p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center border-0">
-                        <div class="qty">
-                            <span class="dec"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-                            <span class="num">1</span>
-                            <span class="inc"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.name %></h5>
+                            <p class="card-text"><%= product.description %></p>
+                            <p class="card-text"><strong>Price: Rs. <%= product.price %></strong></p>
                         </div>
-                        <button id="btn" type="button" class="cart">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart
-                        </button>
+                        <div class="card-footer">
+                            <form action="/add-to-cart/order123" method="POST" class="d-inline">
+                                <input type="hidden" name="id" value="<%= product._id %>">
+                                <input type="hidden" name="name" value="<%= product.name %>">
+                                <input type="hidden" name="price" value="<%= product.price %>">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <% }) %>
+            <% }); %>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.querySelectorAll(".inc").forEach((btn) => {
-            btn.addEventListener("click", function () {
-                const numEl = this.parentElement.querySelector(".num");
-                let currentValue = parseInt(numEl.textContent, 10);
-                numEl.textContent = currentValue + 1;
-            });
-        });
-
-        document.querySelectorAll(".dec").forEach((btn) => {
-            btn.addEventListener("click", function () {
-                const numEl = this.parentElement.querySelector(".num");
-                let currentValue = parseInt(numEl.textContent, 10);
-                if (currentValue > 1) {
-                    numEl.textContent = currentValue - 1;
-                }
-            });
-        });
-    </script>
 </body>
-
 </html>
+

@@ -135,11 +135,17 @@
                     <button class="quantity-button inc"><i class="fas fa-plus"></i></button>
                 </div>
 
-                <a href="/cart/order" class="btn add-to-cart-btn me-3">
-                    <button id="add-to-cart" data-id="<%= product._id %>">
+                <form action="/order123" method="POST" class="d-inline">
+                    <input type="hidden" name="id" value="<%= product._id %>">
+                    <input type="hidden" name="name" value="<%= product.name %>">
+                    <input type="hidden" name="price" value="<%= product.price %>">
+                    <input type="hidden" name="quantity" value="1"> <!-- default quantity, or make it dynamic -->
+                    
+                    <button type="submit" class="btn add-to-cart-btn me-3">
                         Add to Cart <i class="fas fa-cart-plus"></i>
                     </button>
-                </a>
+                </form>
+                
                 
                 
                 </div>
@@ -191,6 +197,30 @@
                 }
             });
         });
+
+
+        document.getElementById('add-to-cart').addEventListener('click', function () {
+    fetch('/add-to-cart/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            id: '<%= product._id %>',
+            name: '<%= product.name %>',
+            price: '<%= product.price %>',
+            quantity: 1,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = data.redirectTo;
+            } else {
+                alert('Error adding to cart');
+            }
+        })
+        .catch(err => console.error('Error:', err));
+});
+
         
     </script>
 </body>

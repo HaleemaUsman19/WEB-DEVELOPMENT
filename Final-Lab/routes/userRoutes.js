@@ -35,7 +35,7 @@ router.post("/create", async(req, res) => {
 
                 const token = jwt.sign({ email: user.email, role: user.role }, "shhhhhhhhhhhhhh");
                 res.cookie("token", token);
-                res.redirect("/");
+                res.redirect("/login");
             } catch (error) {
                 console.error("Error creating user:", error);
                 res.status(500).send("Internal Server Error");
@@ -45,8 +45,8 @@ router.post("/create", async(req, res) => {
 });
 
 // Login Route
-// Login Route
-router.post("/login", async (req, res) => {
+// In userRoutes.js
+router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -58,16 +58,13 @@ router.post("/login", async (req, res) => {
 
     bcrypt.compare(password, user.password, (err, result) => {
         if (result) {
-            const token = jwt.sign({ email: user.email, role: user.role, userId: user._id }, "shhhhhhhhhhhhhh", { expiresIn: "1h" });
-            
-            // Set the token cookie
-            res.cookie("token", token, { httpOnly: true }); // Ensure the cookie is secure
-            
-            if (user.role === "admin") {
-                res.redirect("/admin");
-            } else {
-                res.redirect("/"); // Or to a page like the user's dashboard or cart page
-            }
+            const token = jwt.sign({ email: user.email, role: user.role }, "shhhhhhhhhhhhhh");
+            res.cookie("token", token);
+
+            // Redirect to the original URL or the homepage
+            const redirectUrl = req.signedCookies.redirectTo || '/';
+            res.clearCookie('redirectTo'); // Clear the redirect cookie after using it
+            res.redirect(redirectUrl); // Redirect to the original or home page
         } else {
             res.status(400).send("Invalid credentials");
         }
@@ -76,9 +73,12 @@ router.post("/login", async (req, res) => {
 
 
 // Logout Route
-router.get("/logout", (req, res) => {
-    res.cookie("token", "");
-    res.redirect("/");
+// Route to handle logout
+router.get('/logout', (req, res) => {
+    // Clear the cookies for login and cart
+    res.clearCookie('isLoggedIn');
+    res.clearCookie('cart');
+    res.redirect('/login');
 });
 
 // Admin Route
